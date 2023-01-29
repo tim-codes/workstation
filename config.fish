@@ -1,7 +1,7 @@
 set -U fish_greeting ""
 
 source $HOME/.local/share/omf/pkg/omf/functions/omf.fish
-source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
+source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
 
 # Theme
 set fish_theme eden

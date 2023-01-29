@@ -1,5 +1,14 @@
 #!/bin/zsh
 
+# create default zshrc file
+touch ~/.zshrc
+
+if [[ -z "$(which brew)" ]]; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo 'PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
+  source ~/.zshrc
+fi
+
 # https://switowski.com/blog/favorite-cli-tools
 
 brewDeps=(
@@ -20,7 +29,7 @@ brewDeps=(
   httpie
   just
   k9s
-  kdash
+  #kdash
   lazydocker
   lazygit
   ncdu
@@ -37,8 +46,12 @@ brewDeps=(
 )
 brew install $brewDeps
 
+# make sure fish config directory exists so we can install gcloud completion
+mkdir -p ~/.config/fish
+
 brew install --cask google-cloud-sdk
 cd ~ \
+  && rm -rf gcloud-completion \
   && git clone https://github.com/aliz-ai/google-cloud-sdk-fish-completion gcloud-completion \
   && cd gcloud-completion \
   && ./install.sh \
