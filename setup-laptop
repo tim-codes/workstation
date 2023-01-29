@@ -1,0 +1,78 @@
+#!/bin/zsh
+
+# https://switowski.com/blog/favorite-cli-tools
+
+brewDeps=(
+  ansible
+  asciinema
+  bat
+  colordiff
+  ctop
+  diff-so-fancy
+  duf
+  exa
+  fd
+  fish
+  fzf
+  git
+  glances
+  htop
+  httpie
+  just
+  k9s
+  kdash
+  lazydocker
+  lazygit
+  ncdu
+  nvm
+  ripgrep
+  telnet
+  terraform
+  tldr
+  thefuck
+  tree
+  webp
+  websocat
+  yq
+)
+brew install $brewDeps
+
+brew install --cask google-cloud-sdk
+cd ~ \
+  && git clone https://github.com/aliz-ai/google-cloud-sdk-fish-completion gcloud-completion \
+  && cd gcloud-completion \
+  && ./install.sh \
+  && cd ~ \
+  && rm -rf gcloud-completion
+
+if [[ ! -d /Users/tim/.local/share/omf ]]; then
+  curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+fi
+
+sudo chsh -s $(which fish)
+
+# fish script...
+cat <<EOF | fish
+
+# omf theme
+omf update
+if ! omf list | grep eden > /dev/null
+  omf install eden
+end
+
+# install powerline fonts
+cd ~ \
+  && git clone https://github.com/powerline/fonts.git powerline-fonts \
+  && cd powerline-fonts \
+  && ./install.sh \
+  && cd ~ \
+  && rm -rf powerline-fonts
+
+# https://github.com/jorgebucaran/fisher#quickstart
+# https://github.com/PatrickF1/fzf.fish
+curl -sL https://git.io/fisher | source \
+  && fisher install jorgebucaran/fisher \
+  && fisher install jorgebucaran/nvm.fish \
+  && fisher install PatrickF1/fzf.fish
+
+EOF
