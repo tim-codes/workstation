@@ -28,6 +28,7 @@ brewDeps=(
   htop
   httpie
   just
+  jq
   k9s
   #kdash
   lazydocker
@@ -35,6 +36,7 @@ brewDeps=(
   ncdu
   nvm
   ripgrep
+  sloth
   telnet
   terraform
   tldr
@@ -83,9 +85,16 @@ cd ~ \
 
 # https://github.com/jorgebucaran/fisher#quickstart
 # https://github.com/PatrickF1/fzf.fish
-curl -sL https://git.io/fisher | source \
-  && fisher install jorgebucaran/fisher \
+if ! type -q fisher
+    curl -sL https://git.io/fisher | source
+end
+
+fisher install jorgebucaran/fisher \
   && fisher install jorgebucaran/nvm.fish \
   && fisher install PatrickF1/fzf.fish
+
+# setup nodejs
+nvm install 16
+brew install npm pnpm
 
 EOF
