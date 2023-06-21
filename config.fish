@@ -14,12 +14,14 @@ set -x PATH "/opt/homebrew/bin:$PATH"
 set -x PATH "/Applications/Sublime Text.app/Contents/SharedSupport/bin:$PATH"
 set -x PATH "$PNPM_HOME:$PATH"PATH="$PNPM_HOME:$PATH"
 set -x PATH "$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-set -x PATH "/usr/local/go/bin:$PATH"
+set -x PATH "$HOME/sdk/go1.20.5/bin:$PATH"
+set -x PATH "$HOME/go/bin:$PATH"
 set -x PATH "$HOME/Library/Application Support/Jetbrains/Toolbox/scripts:$PATH"
 set -x PATH "$HOME/dev/workstation/bin:$PATH"
+set -x PATH "$HOME/Library/pnpm:$PATH"
 
 set -x PNPM_HOME "/Users/tim/Library/pnpm"
-set -x GOROOT "/usr/local/go"
+set -x GOROOT "$HOME/sdk/go1.20.5"
 set -x GOPATH "$HOME/go"
 set -x NVM_DIR "$HOME/.nvm"
 set -x KUBE_CONFIG_PATH "$HOME/.kube/config"
@@ -30,7 +32,7 @@ set -x fish_conf "$HOME/.config/fish/config.fish"
 set -x CLOUDSDK_PYTHON_SITEPACKAGES 1
 
 # nodejs configuration
-set -x nvm_default_version 16
+set -x nvm_default_version 18
 nvm use $nvm_default_version &> /dev/null # override as the var is not being ignored by nvm
 
 function sf
@@ -40,6 +42,7 @@ function sf
   cat ~/dev/workstation/config.fish >> $fish_conf
   source $fish_conf
 end
+alias ef="fleet ~/dev/workstation/config.fish"
 
 # fish aliases to mimic bash `which`
 alias which="type -p"
@@ -95,6 +98,15 @@ alias gpun='git push --no-verify'
 alias gr='git revert'
 alias gs='git status -sb'
 
+# custom git commands
+git config --global alias.undo 'reset HEAD^'
+git config --global alias.unstage 'reset HEAD --'
+alias gundo='git undo'
+alias gunstage='git unstage'
+
+# Default git pull strategy
+git config pull.rebase true
+
 # Terraform aliases
 alias tfi="tf init"
 alias tfpx="tf plan" # base plan
@@ -135,3 +147,6 @@ function dns:flush
   sudo dscacheutil -flushcache
   sudo killall -HUP mDNSResponder
 end
+
+# pnpm i -g opencommit
+opencommit config set OPENAI_API_KEY=$(cat ~/keys/openai.key)
