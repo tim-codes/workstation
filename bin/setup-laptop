@@ -97,4 +97,14 @@ fisher install jorgebucaran/fisher \
 nvm install 16
 brew install npm pnpm
 
+set npm_globals \
+  "@xata.io/cli" \
+  "cdktf-cli" \
+  "opencommit" \
+  "ts-node" \
+  "typescript" \
+  "vercel"
+
+pnpm i -g $npm_globals
+
 EOF
